@@ -103,14 +103,14 @@
 
 \begin{itemize}
 	\item Customer -- сущность, €вл€юща€с€ абстракцией покупател€ авиабилета, с идентификатором passport\_customer (паспорт клиент) и атрибутами: email (электронна€ почта покупател€), first\_name (им€ покупател€) и last\_name (фамили€ покупател€).
-	\item Tickets --  сущность, €вл€юща€с€ абстракцией авиабилета с идентификаторами ticket\_id (номер билета), seat\_id (номер места в самолете), passport\_ticket (паспорт держател€ билета). јтрибутами €вл€ютс€ first\_name (им€ покупател€) и last\_name (фамили€ покупател€). 
+	\item Tickets --  сущность, €вл€юща€с€ абстракцией авиабилета с идентификаторами ticket\_id (номер билета). јтрибутами €вл€ютс€ seat\_id (номер места в самолете), passport\_ticket (паспорт держател€ билета), first\_name (им€ покупател€) и last\_name (фамили€ покупател€). 
 	\item Flights -- сущность, определ€юща€ рейс. »дентификатором €вл€етс€ номер (flight\_id) и дата (date) полета. јтрибуты сущности: аэропорт прилета (departure\_airport), arrival\_airport (аэропорт вылета), status (статус рейса) и amount (количество купленных билетов на рейс).
 	
 	\item Aircrafts -- сущность, представл€юща€ абстракцию самолета. »дентификатором €вл€етс€ aircraft\_id (номер самолета), атрибутом model (модель самолета).
 
 \end{itemize}
 \begin{figure}[h!]
-  \centerline{\includegraphics[scale=0.63]{db-bmstu.png}}
+  \centerline{\includegraphics[scale=0.85]{db-bmstu.png}}
   \vskip2mm
   \caption{ER модель.}\label{er_model}
 \end{figure}
