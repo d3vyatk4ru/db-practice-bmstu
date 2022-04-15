@@ -39,7 +39,7 @@ CREATE TABLE Ticket (
 	last_name VARCHAR(30) NOT NULL);
 GO
 
--- Input i the table Ticket
+-- Input in the table Ticket
 INSERT INTO Ticket
 	(seat_id, first_name, last_name)
 VALUES
@@ -54,6 +54,8 @@ GO
 
 -- _________________________ Добавить файловую группу и файл данных. _______________________________
 
+USE master;
+GO
 
 -- Create a new filegroup
 ALTER DATABASE AirTicketsDB
@@ -62,12 +64,12 @@ GO
 
 -- Adding in new filegroup AirTicketsdat_nFileGroup.ndf file with spec. settings
 ALTER DATABASE AirTicketsDB
-ADD FILE 
-	(NAME = AirTickets_nFileGroupdat,
-	 FILENAME = 'D:\Учеба\Магистр\db\AirTicketsdat_nFileGroup.ndf',
-	 SIZE = 10,											-- Initial size for all files in MB.
-	 MAXSIZE = UNLIMITED,								-- max. file size in MB, if size is not input - inf
-	 FILEGROWTH = 5%)									-- Upprer file size in persent.
+	ADD FILE 
+		(NAME = AirTickets_nFileGroupdat,
+		 FILENAME = 'D:\Учеба\Магистр\db\AirTicketsdat_nFileGroup.ndf',
+		 SIZE = 10,											-- Initial size for all files in MB.
+		 MAXSIZE = UNLIMITED,								-- max. file size in MB, if size is not input - inf
+		 FILEGROWTH = 5%)									-- Upprer file size in persent.
 
 TO FILEGROUP NewFileGroup;
 GO
@@ -75,6 +77,76 @@ GO
 -- Make new filegroup NewFileGroup default for db AirTicketsDB
 ALTER DATABASE AirTicketsDB
 	MODIFY FILEGROUP NewFileGroup DEFAULT;
-
-SELECT * FROM Ticket
 GO
+
+USE master;
+GO
+
+-- If table NewTable is existing - delete
+IF OBJECT_ID(N'NewTable') IS NOT NULL
+DROP TABLE NewTable;
+GO
+
+-- Create new table with columns ID, fname, sname
+CREATE TABLE NewTable (
+	ID INT IDENTITY(1, 1) PRIMARY KEY,
+	fname varchar(30) NOT NULL,
+	sname varchar(30) NOT NULL);
+GO
+
+-- Input in the table Ticket
+INSERT INTO NewTable
+	(fname, sname)
+VALUES
+	('Ivan', 'Trenev'),
+	('Andrew', 'Tkachenko'),
+	('Nadya', 'Chaplinskaya'),
+	('Daniil', 'Devyatkin'),
+	('Petr', 'Petrov'),
+	('Irina', 'Vankina'),
+	('Kosha', 'Lemlev');
+GO
+
+USE AirTicketsDB;
+GO
+
+-- Changing file group to PRIMATY (main filegroup)
+ALTER DATABASE AirTicketsDB
+MODIFY FILEGROUP [PRIMARY] DEFAULT;
+GO
+
+-- Deleting table for delete .dat file and file group
+DROP TABLE Ticket;
+GO
+
+-- Deleting .dat file for delete filegroup
+ALTER DATABASE AirTicketsDB
+REMOVE FILE AirTickets_nFileGroupdat
+GO
+
+-- Deleting filegroup
+ALTER DATABASE AirTicketsDB
+REMOVE FILEGROUP NewFileGroup;
+GO
+
+USE master;
+GO
+
+-- If schema NewSchema is existing - delete
+IF SCHEMA_ID(N'NewSchema') IS NOT NULL
+DROP SCHEMA NewSchema;
+GO
+
+-- Create new schema
+CREATE SCHEMA NewSchema;
+GO
+
+-- Move table NewTable to NewSchema schema
+ALTER SCHEMA NewSchema 
+TRANSFER dbo.NewTable
+
+-- Delete table and schema
+DROP TABLE NewSchema.NewTable;
+DROP SCHEMA NewSchema;
+GO
+
