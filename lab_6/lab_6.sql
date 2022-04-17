@@ -143,11 +143,11 @@ GO
 
 ----------------------------------------------------------------------------------------------------------------------------------
 
-IF OBJECT_ID(N'Lab6Table4CascadeParent') IS NOT NULL
+IF OBJECT_ID(N'Lab6Table4Parent') IS NOT NULL
 DROP TABLE Lab6Table4;
 GO
 
-CREATE TABLE Lab6Table4CascadeParent
+CREATE TABLE Lab6Table4Parent
 	(ID INT NOT NULL IDENTITY(0, 2) PRIMARY KEY,
 	 UPDATE_DATE DATE NOT NULL DEFAULT GETDATE())
 GO
@@ -156,31 +156,80 @@ IF OBJECT_ID(N'Lab6Table4Child') IS NOT NULL
 DROP TABLE Lab6Table4Child;
 GO
 
-CREATE TABLE Lab6Table4Child
-	(ParentID INT, -- it col will be a FK
+-- Cascade delete for child
+CREATE TABLE Lab6Table4Cascade
+	(ParentCascadeID INT, -- it col will be a FK
 	 UPDATE_DATE DATE NOT NULL DEFAULT GETDATE(),
 	 -- make options ParentID col
-	 FOREIGN KEY (ParentID) REFERENCES Lab6Table4CascadeParent(ID) ON DELETE CASCADE ON UPDATE CASCADE)
+	 FOREIGN KEY (ParentCascadeID) REFERENCES Lab6Table4Parent(ID) ON DELETE CASCADE)
 GO
+
+-- No action for child
+CREATE TABLE Lab6Table4NoAction
+	(ParentNoActionID INT,
+	 UPDATE_DATE DATE NOT NULL DEFAULT GETDATE(),
+	 FOREIGN KEY (ParentNoActionID) REFERENCES Lab6Table4Parent(ID) ON DELETE NO ACTION)
+
+-- Set NULL for child
+CREATE TABLE Lab6Table4SetNull
+	(ParentSetNullID INT,
+	 UPDATE_DATE DATE NOT NULL DEFAULT GETDATE(),
+	 FOREIGN KEY (ParentSetNullID) REFERENCES Lab6Table4Parent(ID) ON DELETE SET NULL)
+
+-- Set default value for child
+CREATE TABLE Lab6Table4SetDefault
+	(ParentSetDefaultID INT,
+	 UPDATE_DATE DATE NOT NULL DEFAULT GETDATE(),
+	 FOREIGN KEY (ParentSetDefaultID) REFERENCES Lab6Table4Parent(ID) ON DELETE SET DEFAULT)
 
 DECLARE @i INTEGER;
 SET @i = 0;
 
 WHILE @i < 20
 	BEGIN
-		INSERT INTO Lab6Table4CascadeParent
+		INSERT INTO Lab6Table4Parent
 		VALUES (DEFAULT);
 
 		INSERT INTO
-			Lab6Table4Child(ParentID, UPDATE_DATE)
+			Lab6Table4Cascade(ParentCascadeID, UPDATE_DATE)
 		VALUES 
 			(@i, DEFAULT);
+
+		INSERT INTO
+			Lab6Table4SetNull(ParentSetNullID, UPDATE_DATE)
+		VALUES
+			(@i, DEFAULT)
+
+		INSERT INTO
+			Lab6Table4SetDefault(ParentSetDefaultID, UPDATE_DATE)
+		VALUES
+			(@i, DEFAULT)
+		
 		SET @i = @i + 2;
 	END
-
-SELECT * FROM Lab6Table4CascadeParent;
-SELECT * FROM Lab6Table4Child;
 GO
 
-DROP TABLE Lab6Table4CascadeParent;
+SELECT * FROM Lab6Table4Parent;
+SELECT * FROM Lab6Table4Cascade;
+SELECT * FROM Lab6Table4SetNull;
+SELECT * FROM Lab6Table4SetDefault;
+GO
+
+DELETE FROM
+	Lab6Table4Parent
+WHERE 
+	ID IN (0, 2, 4, 6, 8);
+GO
+
+SELECT * FROM Lab6Table4Parent;
+SELECT * FROM Lab6Table4Cascade;
+SELECT * FROM Lab6Table4SetNull;
+SELECT * FROM Lab6Table4SetDefault;
+GO
+
+DROP TABLE Lab6Table4Cascade;
+DROP TABLE Lab6Table4NoAction;
+DROP TABLE Lab6Table4SetNull;
+DROP TABLE Lab6Table4SetDefault;
+DROP TABLE Lab6Table4Parent;
 GO
