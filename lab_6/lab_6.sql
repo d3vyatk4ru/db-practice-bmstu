@@ -36,7 +36,7 @@ CREATE TABLE Lab6Table1
 	 n_user VARCHAR(10) NOT NULL,
 	 identify INT CHECK (identify > 0),
 	 title VARCHAR(50) DEFAULT 'Title is None',
-	 TIME_NOW TIME NOT NULL DEFAULT GETDATE());
+	 UPDATE_TIME TIME NOT NULL DEFAULT GETDATE());
 GO
 
 -- create and init var 'i'
@@ -70,11 +70,14 @@ BEGIN
 END;
 GO
 
-SELECT * FROM Lab6Table1;
-GO
+ -- UNCOMM
+--SELECT * FROM Lab6Table1;
+--GO
 
 DROP TABLE Lab6Table1;
 GO
+
+----------------------------------------------------------------------------------------------------------------------------------
 
 IF OBJECT_ID(N'Lab6Table2') IS NOT NULL
 DROP TABLE Lab6Table2;
@@ -97,11 +100,14 @@ VALUES
 	(DEFAULT);
 GO
 
-SELECT * FROM Lab6Table2;
-GO
+ -- UNCOMM
+--SELECT * FROM Lab6Table2;
+--GO
 
 DROP TABLE Lab6Table2;
 GO
+
+----------------------------------------------------------------------------------------------------------------------------------
 
 -- create SEQUENCE SEQUENCE with BIGINT type, which start from 0 with step 1 ans caching
 CREATE SEQUENCE seqForPK
@@ -119,7 +125,7 @@ GO
 CREATE TABLE Lab6Table3
 	(ID INT NOT NULL PRIMARY KEY DEFAULT NEXT VALUE FOR seqForPK,
 	 FNAME VARCHAR(30) DEFAULT 'Oleg',
-	 DATE_NOW DATE NOT NULL DEFAULT GETDATE());
+	 UPDATE_DATA DATE NOT NULL DEFAULT GETDATE());
 GO
 
 INSERT INTO Lab6Table3
@@ -128,5 +134,53 @@ VALUES
 	('DARIA'), ('Mihail'), ('Stepan'), (DEFAULT), ('Ivan'), (DEFAULT);
 GO
 
-SELECT * FROM Lab6Table3;
+ -- UNCOMM
+--SELECT * FROM Lab6Table3;
+--GO
+
+DROP TABLE Lab6Table3;
+GO
+
+----------------------------------------------------------------------------------------------------------------------------------
+
+IF OBJECT_ID(N'Lab6Table4CascadeParent') IS NOT NULL
+DROP TABLE Lab6Table4;
+GO
+
+CREATE TABLE Lab6Table4CascadeParent
+	(ID INT NOT NULL IDENTITY(0, 2) PRIMARY KEY,
+	 UPDATE_DATE DATE NOT NULL DEFAULT GETDATE())
+GO
+
+IF OBJECT_ID(N'Lab6Table4Child') IS NOT NULL
+DROP TABLE Lab6Table4Child;
+GO
+
+CREATE TABLE Lab6Table4Child
+	(ParentID INT, -- it col will be a FK
+	 UPDATE_DATE DATE NOT NULL DEFAULT GETDATE(),
+	 -- make options ParentID col
+	 FOREIGN KEY (ParentID) REFERENCES Lab6Table4CascadeParent(ID) ON DELETE CASCADE ON UPDATE CASCADE)
+GO
+
+DECLARE @i INTEGER;
+SET @i = 0;
+
+WHILE @i < 20
+	BEGIN
+		INSERT INTO Lab6Table4CascadeParent
+		VALUES (DEFAULT);
+
+		INSERT INTO
+			Lab6Table4Child(ParentID, UPDATE_DATE)
+		VALUES 
+			(@i, DEFAULT);
+		SET @i = @i + 2;
+	END
+
+SELECT * FROM Lab6Table4CascadeParent;
+SELECT * FROM Lab6Table4Child;
+GO
+
+DROP TABLE Lab6Table4CascadeParent;
 GO
