@@ -1,4 +1,4 @@
--- Используем БД master
+-- пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ master
 USE master;
 GO
 
@@ -10,19 +10,19 @@ GO
 CREATE DATABASE AirTicketsDB
 --  Saved data, table, indices...
 	ON (NAME = AirTickets_dat,
-		FILENAME = 'D:\Учеба\Магистр\db\AirTicketsdat.mdf', -- abs. path to file with db
+		FILENAME = 'D:\РЈС‡РµР±Р°\РњР°РіРёСЃС‚СЂ\db\lab_5\AirTicketsdat.mdf', -- abs. path to file with db
 		SIZE = 10,											-- Initial size for all files in MB.
 		MAXSIZE = UNLIMITED,								-- max. file size in MB, if size is not input - inf
 		FILEGROWTH = 5%)									-- Upprer file size in persent.
 -- Saved transactions logs for reconstruction db
 	LOG ON (NAME = AirTickets_log,
-			FILENAME = 'D:\Учеба\Магистр\db\AirTickets_log', -- abs. path to file with db
+			FILENAME = 'D:\РЈС‡РµР±Р°\РњР°РіРёСЃС‚СЂ\db\lab_5\AirTickets_log', -- abs. path to file with db
 			SIZE = 5MB,										 -- Initial size for all files in MB.
 			MAXSIZE = 25MB,									 -- max. file size in MB, if size is not input - inf
 			FILEGROWTH = 5MB);								 -- Upprer file size in MB.
 GO
 
--- Используем только что созданную БД AirTicketsDB
+-- пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ AirTicketsDB
 USE AirTicketsDB;
 GO
 
@@ -49,10 +49,10 @@ VALUES
 	('12D', 'Daniil', 'Devyatkin'),
 	('13E', 'Petr', 'Petrov'),
 	('14F', 'Irina', 'Vankina'),
-	('07С', 'Kosha', 'Lemlev');
+	('07пїЅ', 'Kosha', 'Lemlev');
 GO
 
--- _________________________ Добавить файловую группу и файл данных. _______________________________
+-- _________________________ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ. _______________________________
 
 USE master;
 GO
@@ -66,7 +66,7 @@ GO
 ALTER DATABASE AirTicketsDB
 	ADD FILE 
 		(NAME = AirTickets_nFileGroupdat,
-		 FILENAME = 'D:\Учеба\Магистр\db\AirTicketsdat_nFileGroup.ndf',
+		 FILENAME = 'D:\РЈС‡РµР±Р°\РњР°РіРёСЃС‚СЂ\db\lab_5\AirTicketsdat_nFileGroup.ndf',
 		 SIZE = 10,											-- Initial size for all files in MB.
 		 MAXSIZE = UNLIMITED,								-- max. file size in MB, if size is not input - inf
 		 FILEGROWTH = 5%)									-- Upprer file size in persent.
@@ -79,7 +79,7 @@ ALTER DATABASE AirTicketsDB
 	MODIFY FILEGROUP NewFileGroup DEFAULT;
 GO
 
-USE master;
+USE AirTicketsDB;
 GO
 
 -- If table NewTable is existing - delete
@@ -89,7 +89,7 @@ GO
 
 -- Create new table with columns ID, fname, sname
 CREATE TABLE NewTable (
-	ID INT IDENTITY(1, 1) PRIMARY KEY,
+	ID INT NOT NULL IDENTITY(1, 1),
 	fname varchar(30) NOT NULL,
 	sname varchar(30) NOT NULL);
 GO
@@ -116,8 +116,10 @@ MODIFY FILEGROUP [PRIMARY] DEFAULT;
 GO
 
 -- Deleting table for delete .dat file and file group
-DROP TABLE Ticket;
+DROP TABLE NewTable;
 GO
+
+
 
 -- Deleting .dat file for delete filegroup
 ALTER DATABASE AirTicketsDB
@@ -127,9 +129,6 @@ GO
 -- Deleting filegroup
 ALTER DATABASE AirTicketsDB
 REMOVE FILEGROUP NewFileGroup;
-GO
-
-USE master;
 GO
 
 -- If schema NewSchema is existing - delete
@@ -143,10 +142,16 @@ GO
 
 -- Move table NewTable to NewSchema schema
 ALTER SCHEMA NewSchema 
-TRANSFER dbo.NewTable
+TRANSFER dbo.Ticket
 
--- Delete table and schema
-DROP TABLE NewSchema.NewTable;
+DROP TABLE NewSchema.Ticket
+GO
+
 DROP SCHEMA NewSchema;
 GO
 
+USE master;
+GO
+
+DROP DATABASE AirTicketsDB;
+GO

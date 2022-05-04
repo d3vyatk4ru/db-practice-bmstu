@@ -1,0 +1,5 @@
+ER-model/report/*.toc
+ER-model/report/*.log
+ER-model/report/*.out
+ER-model/report/*.eps
+ER-model/report/*.synctex.gz

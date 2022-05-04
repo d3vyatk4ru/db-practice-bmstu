@@ -1,20 +1,16 @@
 %%%    Стилевой файл для оформления курсовых и лабораторных работ
 %%%
-%%%    Автор А.Н. Канатников
-%%%    Версия от от 01.09.2019
+%%%    Автор А.Н. Канатников %%% Версия от от 01.09.2019
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \NeedsTeXFormat{LaTeX2e}[2001/01/01]
 \ProvidesPackage{kprj}[2018/09/01 -- report style for course and laboratory works, A.N. Kanatnikov]
 
-
 \def\ifempty#1{\def\@tempa{#1}\ifx\@tempa\@empty}
 \newif\ifpdftex
 \@ifundefined{pdfoutput}{\pdftexfalse}{\ifnum1=\pdfoutput\pdftextrue\else\pdftexfalse\fi}
 
-
 %% Параметры страницы
-
 \textwidth=160mm
 \textheight=240mm
 \oddsidemargin=30mm
@@ -24,15 +20,12 @@
 \righthyphenmin=2
 \AtBeginDocument{\advance\hoffset by -1in\advance\voffset by -1in}
 
-
 %\ProcessOptions
-
 \RequirePackage{amssymb}
 \RequirePackage{amsmath}
 \RequirePackage{cite}
 \ifpdftex\RequirePackage{cmap}\fi
 \RequirePackage{graphicx}
-
 
 \let\contsectionfont\relax
 \let\contsubsectionfont\relax
@@ -70,11 +63,9 @@
 \input{umsa.fd}
 \input{umsb.fd}
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
 %%%%     Секционирование
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
-
 \def\@startctsection#1#2#3#4#5#6{\if@noskipsec \leavevmode \fi
    \par \@tempskipa #4\relax
    \@afterindenttrue
@@ -155,7 +146,6 @@
 \gdef\conthdsubsubsection{}
 \secdelim{0.1em}
 
-
 \def\section{\@startctsection{section}{1}{\@secdelim}
             {\secsepbefore}{\secsepafter}{\reset@font\sectionfont}}
 \def\subsection{\@startctsection{subsection}{2}{\@secdelim}
@@ -176,8 +166,6 @@
 \def\l@section#1{\addvspace\l@secsepbefore\@dottedtocline{1}{0em}{1.6em}{\contsectionfont#1}}
 \def\l@subsection#1{\addvspace\l@subsecsepbefore\@dottedtocline{2}{1.6em}{2.2em}{\contsubsectionfont#1}}
 \def\l@subsubsection{\addvspace\l@subsubsecsepbefore\@dottedtocline{2}{3.8em}{2.8em}}
-
-
 
 %%%        Оформление списка литературы и цитирования источников
 
@@ -202,7 +190,6 @@
      {\@latex@warning{Empty `thebibliography' environment}}%
     \endlist}
 
-
 %%%   Модификация параметров списков \@listi-\@listiii
 %%%   добавлением в конец специальной команды \@userpar
 \def\@change@itemlists{%
@@ -221,7 +208,6 @@
 \let\@vslistii\@vslisti
 \let\@vslistiii\@vslisti
 
-
 %%  Команда организации многострочных заголовков
 \def\raggedcenter@{\leftskip\z@ plus.4\hsize \rightskip\leftskip
  \parfillskip\z@ \parindent\z@ \spaceskip.5em \xspaceskip.7em\relax
@@ -236,9 +222,7 @@
     \edef\@currentlabel{\csname p@#1\endcsname\csname conthd#1\endcsname\csname the#1\endcsname}%
     \let\protect\@tempa}
 
-
 %%% Колонтитулы
-
 \def\ps@oneside{%
   \let\@mkboth\markboth
   \def\@oddfoot{}\def\@evenfoot{}%
@@ -253,7 +237,6 @@
     \conthdsection\thesection.\ \fi ##1}}{}}}
 
 %%%   Нумерация формул, ри сунков и проч.
-
 \def\thesection{\arabic{section}}
 \def\@section@name{section}
 \def\@whole@name{whole}
@@ -266,11 +249,9 @@
 \let\eqnumb\equationnumbering
 \newcommand\figurenumbering{\@obj@numbering{figure}}
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%   Титульный лист и спец листы (задание, кал. план)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \def\ulbox#1#2{\underline{\hbox to #1{#2\hfil}}}
 \def\ulfill{\leaders\hrule height-1pt depth1.4pt\hfill\kern\z@}
 \def\UlBox#1#2{\hbox to 0pt{#2\hss}\nobreak\vrule height-1pt depth1.4pt width#1{}}
@@ -354,9 +335,7 @@
 \def\Ministry#1{\def\@Ministry{#1}}
 \def\BMSTU#1{\def\@BMSTU{#1}}
 
-
 %%  Настроечные команды
-
 \title{}
 \LabWorkNo{0}
 \authorfull{}
@@ -376,8 +355,6 @@
         имени Н.\,Э.~Баумана (национальный\\
         исследовательский университет)\ar{}\\
         (МГТУ им. Н.Э.~Баумана)}
-
-
 
 \def\maketitle{%
    \thispagestyle{empty}
@@ -608,7 +585,6 @@
          \vskip2mm\al\,\ulbox{2em}{}\,\ar\space\ulbox{6em}{}\space 20\ulbox{1.7em}{}\kern0.2em г.\par
        }}
 
-
 \def\gen@zadanie{\vskip1mm
      \bgroup
        \def\pl##1{##1\% к \ulbox{1.2em}{} нед.}%
@@ -637,12 +613,9 @@
      \ulline\\\ulline\\\ulline\\\ulline\par
      }
 
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
 %%%    Разные команды
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
-
 \newcommand\initcounter[1]{\stepcounter{#1}\addtocounter{#1}{-1}}
 \let\al\guillemotleft\let\lk\al
 \let\ar\guillemotright\let\rk\ar
@@ -685,12 +658,9 @@
      \loos@text #2{\kern-#1em\let\loos@text=\relax
                    \catcode` =\the\@oldcatcode}\relax}
 
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%  Дополнительный список (отрабатывается перед командой \begin{document})
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \let\stprj@save@document\document
 \let\@startbegindocumenthook\@empty
 \def\document{\endgroup\@startbegindocumenthook\begingroup\stprj@save@document}
@@ -703,12 +673,9 @@
       \hypersetup{unicode=true, colorlinks=false, pdfborder = 0 0 0}
     \fi}
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%   Работа с рисунками
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
 \long\def\@makecaption#1#2{%
   \def\@tempa{#2}\def\@tempb{\ignorespaces}%
   \ifx\@tempa\@tempb
@@ -726,7 +693,4 @@
 %  Для вставки рисунка, не занимающего места
 \def\dfb#1{\ifvmode \let\@tempa=\relax \else \let\@tempa=\vadjust\fi
            \@tempa{\vbox to 0pt{#1\vss}}}
-
-
-
 \endinput
