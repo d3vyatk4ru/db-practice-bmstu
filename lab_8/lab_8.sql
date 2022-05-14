@@ -1,6 +1,10 @@
 USE master;
 GO
 
+-- @@FETCH_STATUS отражает результаты последней инструкции FETCH,
+-- выполненной в хранимой процедуре, а не результаты инструкции FETCH, 
+-- выполненной до вызова хранимой процедуры.
+
 IF DB_ID(N'Lab8DB') IS NOT NULL
 DROP DATABASE [Lab8DB];
 GO
@@ -178,6 +182,11 @@ CLOSE @cursor;
 DEALLOCATE @cursor;
 GO
 
+PRINT ''
+PRINT '############################'
+PRINT ''
+GO
+
 ----------------------------------------------------------------------------
 -- Task [3] Создать хранимую процедуру, вызывающую процедуру п.1., осуществляющую прокрутку 
 -- возвращаемого курсора и выводящую сообщения, сформированные из записей при 
@@ -234,6 +243,54 @@ GO
 EXECUTE [procedure_call_procedure_task1];
 GO
 
+PRINT ''
+PRINT '############################'
+PRINT ''
+GO
+
+------------------------------------------------------------------------------
+-- Task [4] Модифицировать хранимую процедуру п.2. таким образом, 
+-- чтобы выборка формировалась с помощью табличной функции.
+
+ALTER PROCEDURE [get_cursor_procedure_task2]
+	@lprocedure_cursor CURSOR VARYING OUTPUT
+AS
+	SET @lprocedure_cursor = CURSOR FOR
+		SELECT
+			[passport_customer], COUNT([passport_customer])
+		FROM
+			[Ticket]
+		GROUP BY
+			[passport_customer]
+
+	OPEN @lprocedure_cursor;		
+GO
+
+DECLARE @cursor CURSOR;
+DECLARE @pass VARCHAR(10);
+DECLARE @cnt INT;
+
+EXECUTE [get_cursor_procedure_task2]
+	@lprocedure_cursor = @cursor OUTPUT;
+
+FETCH NEXT FROM
+	@cursor
+INTO
+	@pass, @cnt;
+
+WHILE (@@FETCH_STATUS = 0)
+BEGIN
+	
+	PRINT @pass + ' <-> ' + CAST(@cnt AS CHAR(3))
+
+	FETCH NEXT FROM
+		@cursor
+	INTO
+		@pass, @cnt;
+END
+
+CLOSE @cursor;
+DEALLOCATE @cursor;
 ------------------------------------------------------------------------------
 
 DROP PROCEDURE [procedure_call_procedure_task1];
