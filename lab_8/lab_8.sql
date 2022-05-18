@@ -11,13 +11,13 @@ GO
 
 CREATE DATABASE [Lab8DB]
 	ON (NAME = Lab8DB_dat,
-		FILENAME = 'D:\Учеба\Магистр\db\lab_8\Lab8DB.mdf',
+		FILENAME = 'D:\Study\Master\db\lab_8\Lab8DB.mdf',
 		SIZE = 5MB,
 		MAXSIZE = UNLIMITED,
 		FILEGROWTH = 10%)
 
-	LOG ON (NAME = Lab7DB_log,
-			FILENAME = 'D:\Учеба\Магистр\db\lab_8\Lab8DB_log',
+	LOG ON (NAME = Lab8DB_log,
+			FILENAME = 'D:\Study\Master\db\lab_8\Lab8DB_log',
 			SIZE = 5MB,
 			MAXSIZE = 25MB,
 			FILEGROWTH = 5MB);
@@ -252,18 +252,45 @@ GO
 -- Task [4] Модифицировать хранимую процедуру п.2. таким образом, 
 -- чтобы выборка формировалась с помощью табличной функции.
 
+CREATE FUNCTION func_inline()
+RETURNS TABLE
+AS
+RETURN
+(	SELECT
+		[passport_customer], COUNT([passport_customer]) as something
+	FROM
+		[Ticket]
+	GROUP BY
+		[passport_customer]
+);
+GO
+
+CREATE FUNCTION func()
+RETURNS @result TABLE 
+	([passport_customer] CHAR(10),
+	 something INT
+	)
+AS
+BEGIN
+	INSERT INTO
+		@result
+	SELECT
+		[passport_customer], COUNT([passport_customer]) as something
+	FROM
+		[Ticket]
+	GROUP BY
+		[passport_customer]
+	RETURN
+END;
+GO
+
 ALTER PROCEDURE [get_cursor_procedure_task2]
 	@lprocedure_cursor CURSOR VARYING OUTPUT
 AS
-	SET @lprocedure_cursor = CURSOR FOR
-		SELECT
-			[passport_customer], COUNT([passport_customer])
-		FROM
-			[Ticket]
-		GROUP BY
-			[passport_customer]
-
-	OPEN @lprocedure_cursor;		
+	SET @lprocedure_cursor = CURSOR  
+    FORWARD_ONLY STATIC FOR 
+      SELECT * FROM func_inline() 
+    OPEN @lprocedure_cursor;		
 GO
 
 DECLARE @cursor CURSOR;
@@ -281,7 +308,7 @@ INTO
 WHILE (@@FETCH_STATUS = 0)
 BEGIN
 	
-	PRINT @pass + ' <-> ' + CAST(@cnt AS CHAR(3))
+	PRINT @pass + ' <-> ' + CAST(@cnt AS NCHAR(3))
 
 	FETCH NEXT FROM
 		@cursor
