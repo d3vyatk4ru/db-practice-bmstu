@@ -8,13 +8,13 @@ GO
 CREATE DATABASE [Lab9DB]
 ON
 	(NAME = Lab9DB_dat,
-	 FILENAME = 'D:\Учеба\Магистр\db\lab_9\Lab9BD.mdf',
+	 FILENAME = 'D:\Study\Master\db\lab_9\Lab9BD.mdf',
 	 SIZE = 5MB,
 	 MAXSIZE = UNLIMITED,
 	 FILEGROWTH = 10%)
 LOG ON
 	(NAME = Lab9DB_log,
-	 FILENAME = 'D:\Учеба\Магистр\db\lab_9\Lab9BD_log',
+	 FILENAME = 'D:\Study\Master\db\lab_9\Lab9BD_log',
 	 SIZE = 5MB,
 	 MAXSIZE = 25MB,
 	 FILEGROWTH = 5MB
@@ -28,9 +28,14 @@ IF OBJECT_ID(N'Flight') IS NOT NULL
 DROP TABLE [Flight];
 GO
 
+CREATE SEQUENCE [seq_flight_id]
+	START WITH 999
+    INCREMENT BY -1 ;
+GO
+
 CREATE TABLE [Flight]
 	([FID] INT NOT NULL IDENTITY(1, 1) PRIMARY KEY,
-	 [flight_id] INT NOT NULL UNIQUE DEFAULT -1,
+	 [flight_id] INT NOT NULL UNIQUE DEFAULT NEXT VALUE FOR [seq_flight_id],
 	 [date] DATETIME NOT NULL DEFAULT GETDATE(),
 	 [departure_airport] CHAR(3) NOT NULL CHECK (LEN([departure_airport]) = 3 AND departure_airport LIKE '[A-Z]%') DEFAULT 'UNK',
 	 [arrival_airport] CHAR(3) NOT NULL CHECK (LEN([arrival_airport]) = 3 AND arrival_airport LIKE '[A-Z]%') DEFAULT 'UNK',
@@ -41,13 +46,13 @@ GO
 
 
 INSERT INTO [Flight]
-	([flight_id], [departure_airport], [arrival_airport], [status], [amount])
+	([departure_airport], [arrival_airport], [status], [amount])
 VALUES
-	(999, 'ARH', 'KWG', 'INF', 5),
-	(998, 'VOG', 'BQS', 'INF', 8),
-	(997, 'KEJ', 'SVX', 'ARR', 2),
-	(996, 'LPP', 'KDL', 'ARR', 5),
-	(995, 'GYG', 'DEE', 'INF', 7)
+	( 'ARH', 'KWG', 'INF', 5),
+	( 'VOG', 'BQS', 'INF', 8),
+	( 'KEJ', 'SVX', 'DEP', 2),
+	( 'LPP', 'KDL', 'DEP', 5),
+	( 'GYG', 'DEE', 'INF', 7)
 GO
 ----------------------------------------------------------------------------
 
@@ -86,19 +91,9 @@ GO
 CREATE TRIGGER [FlightInsertTrig] ON [Flight]
 	AFTER INSERT
 AS
-	PRINT 'В таблицу [Flight] были добавлены записи'
-GO
-
-CREATE TRIGGER [FlightUpdateTrig] ON [Flight]
-	AFTER UPDATE
-AS
-	PRINT 'В таблицe [Flight] были изменены некоторые записи' 
-GO
-
-CREATE TRIGGER [FlightDeleteTrig] ON [Flight]
-	AFTER DELETE
-AS
-	RAISERROR( N'Вызвано RAISERROR при удалении', 10, 1);
+BEGIN
+	PRINT 'In table [Flight] was insert row'
+END
 GO
 
 INSERT INTO [Flight]
@@ -107,12 +102,28 @@ VALUES
 	(994, 'ARH', 'ARH', 'TIO', 1)
 GO
 
+CREATE TRIGGER [FlightUpdateTrig] ON [Flight]
+	AFTER UPDATE
+AS
+BEGIN
+	PRINT 'In table [Flight] was update some row' 
+END
+GO
+
 UPDATE
 	[Flight]
 SET
 	[status] = 'UNK'
 WHERE
 	[status] = 'TIO'
+GO
+
+CREATE TRIGGER [FlightDeleteTrig] ON [Flight]
+	AFTER DELETE
+AS
+BEGIN
+	RAISERROR( N'Calling RAISERROR when removed', 10, 1);
+END
 GO
 
 DELETE FROM 
@@ -126,13 +137,110 @@ GO
 -- триггеры на вставку, удаление и добавление, обеспечивающие 
 -- возможность выполнения операций с данными непосредственно через представление.
 
-----------------------------------------------------------------------------
-
---SELECT * FROM [Ticket];
-SELECT * FROM [Flight]
+CREATE VIEW [FlightInfo]
+AS
+	SELECT
+		[date], [departure_airport], [arrival_airport], [status]
+	FROM
+		[Flight]
 GO
 
+SELECT * FROM [FlightInfo];
+GO
 ----------------------------------------------------------------------------
+
+CREATE TRIGGER [FlightInfoInsertTrig] ON [FlightInfo]
+	INSTEAD OF INSERT
+AS
+BEGIN
+	INSERT INTO
+		[Flight]([departure_airport], [arrival_airport], [status])
+	SELECT
+		[i].[departure_airport],
+		[i].[arrival_airport],
+		[i].[status]
+	FROM
+		inserted AS i
+		
+	PRINT 'In view [FlightInfo] was insert some row'
+END
+GO
+
+INSERT INTO
+	[FlightInfo]([departure_airport], [arrival_airport], [status])
+VALUES
+	('SVX', 'KEJ', 'ARR')
+GO
+
+SELECT * FROM [FlightInfo];
+GO
+----------------------------------------------------------------------------
+
+CREATE TRIGGER [FlightInfoUpdateTrig] ON [FlightInfo]
+	INSTEAD OF UPDATE
+AS
+BEGIN
+	UPDATE
+		[Flight]
+	SET
+		[status] = [i].[status]
+	FROM
+		(SELECT *, row_number() OVER (ORDER BY [date]) AS [row_num] FROM inserted) AS i 
+		JOIN
+		(SELECT *, row_number() OVER (ORDER BY [date]) AS [row_num] FROM deleted) AS d
+		ON 
+			[i].[row_num] = [d].[row_num]
+		WHERE 
+			[Flight].[departure_airport] = [d].[departure_airport]
+END
+GO
+
+UPDATE
+	[FlightInfo]
+SET
+	[status] = 'ABC'
+WHERE
+	[departure_airport] = 'SVX';
+GO
+
+SELECT * FROM [FlightInfo];
+GO
+----------------------------------------------------------------------------
+
+CREATE TRIGGER [FlightInfoDeleteTrig] ON [FlightInfo]
+	INSTEAD OF DELETE
+AS
+BEGIN
+	DELETE FROM
+		[Flight]
+	WHERE
+		[departure_airport] = (SELECT [d].[departure_airport] FROM deleted AS d)
+		AND [arrival_airport] = (SELECT [d].[arrival_airport] FROM deleted AS d)
+END
+GO
+
+DELETE FROM
+	[FlightInfo]
+WHERE
+	[departure_airport] = 'SVX'
+	AND [arrival_airport] = 'KEJ';
+GO
+
+SELECT * FROM [FlightInfo];
+GO
+
+
+----------------------------------------------------------------------------
+
+----------------------------------------------------------------------------
+DROP TRIGGER IF EXISTS [FlightInfoDeleteTrig];
+GO
+
+DROP TRIGGER IF EXISTS [FlightInfoInsertTrig];
+GO
+
+DROP VIEW IF EXISTS [FlightInfo];
+GO
 
 DROP TRIGGER IF EXISTS [FlightInsertTrig];
 GO
