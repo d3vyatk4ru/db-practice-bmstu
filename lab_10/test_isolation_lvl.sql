@@ -1,19 +1,13 @@
 USE Lab10DB;
 GO
 
-----------------------------------------------------------------------------
--- READ UNCOMMITTED LEVEL
-
-SET TRANSACTION ISOLATION LEVEL
-  READ UNCOMMITTED;
-  --READ COMMITTED;
-  --REPEATABLE READ;
-  --SERIALIZABLE;
+DROP PROCEDURE IF EXISTS [GET_INFO];
 GO
 
-BEGIN TRANSACTION
-SELECT * FROM [Aircraft];
-SELECT 
+CREATE PROCEDURE [GET_INFO]
+AS
+BEGIN
+	SELECT 
 	[resource_type],		-- тип ресурса {DATABASE, FILE, OBJECT, PAGE, KEY, EXTENT, RID, APPLICATION, ALLOCATION_UNIT}
 	[resource_database_id], -- идентификатор базы данных.
 	CASE [request_mode]
@@ -35,5 +29,59 @@ SELECT
 	END AS [request_mode]			-- тип блокировки
 FROM
 	sys.dm_tran_locks;
+END
+GO
+
+----------------------------------------------------------------------------
+-- READ UNCOMMITTED LEVEL
+-- ƒоступно: гр€зное чтение, невоспроизводимое чтение, фантомное чтение
+
+SET TRANSACTION ISOLATION LEVEL
+  READ UNCOMMITTED;
+GO
+
+BEGIN TRANSACTION
+	SELECT * FROM [Aircraft];
+	EXECUTE [GET_INFO];
 COMMIT TRANSACTION
 GO
+
+----------------------------------------------------------------------------
+-- READ COMMITTED LEVEL
+-- ƒоступно: невоспроизводимое чтение, фантомное чтение
+
+SET TRANSACTION ISOLATION LEVEL
+  READ COMMITTED;
+GO
+
+BEGIN TRANSACTION
+	SELECT * FROM [Aircraft];
+	EXECUTE [GET_INFO];
+COMMIT TRANSACTION
+GO
+
+----------------------------------------------------------------------------
+-- REPEATABLE READ LEVEL
+-- ƒоступно: фантомное чтение
+
+SET TRANSACTION ISOLATION LEVEL
+	REPEATABLE READ;
+GO
+
+BEGIN TRANSACTION
+	SELECT * FROM [Aircraft];
+	EXECUTE [GET_INFO];
+COMMIT TRANSACTION
+
+----------------------------------------------------------------------------
+-- SERIALIZABLE LEVEL
+-- ƒоступно: None
+
+SET TRANSACTION ISOLATION LEVEL
+	SERIALIZABLE;
+GO
+
+BEGIN TRANSACTION
+	SELECT * FROM [Aircraft];
+	EXECUTE [GET_INFO];
+COMMIT TRANSACTION
