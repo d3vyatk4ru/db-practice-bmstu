@@ -3,3 +3,5 @@ ER-model/report/*.log
 ER-model/report/*.out
 ER-model/report/*.eps
 ER-model/report/*.synctex.gz
+ER-model/report/*.sty
+ER-model/report/*.tex
