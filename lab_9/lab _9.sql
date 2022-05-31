@@ -51,7 +51,7 @@ VALUES
 	( 'ARH', 'KWG', 'INF', 5),
 	( 'VOG', 'BQS', 'INF', 8),
 	( 'KEJ', 'SVX', 'DEP', 2),
-	( 'LPP', 'KDL', 'DEP', 5),
+	( 'LPP', 'KDL', 'UNK', 5),
 	( 'GYG', 'DEE', 'INF', 7)
 GO
 ----------------------------------------------------------------------------
@@ -89,11 +89,16 @@ GO
 -- ËÌËˆËËÓ‚‡Ú¸ ‚ÓÁÌËÍÌÓ‚ÂÌËÂ Ó¯Ë·ÍË (RAISERROR / THROW).
 
 CREATE TRIGGER [FlightInsertTrig] ON [Flight]
-	AFTER INSERT
+	FOR INSERT
 AS
-BEGIN
-	PRINT 'In table [Flight] was insert row'
-END
+
+IF EXISTS (SELECT *
+		   FROM inserted
+		   WHERE [status] = 'POP')
+		BEGIN
+			PRINT 'Bad inserted status'
+			ROLLBACK TRANSACTION
+		END
 GO
 
 INSERT INTO [Flight]
@@ -113,23 +118,28 @@ GO
 UPDATE
 	[Flight]
 SET
-	[status] = 'UNK'
+	[status] = 'AAA'
 WHERE
 	[status] = 'TIO'
 GO
 
 CREATE TRIGGER [FlightDeleteTrig] ON [Flight]
-	AFTER DELETE
+	FOR DELETE
 AS
 BEGIN
-	RAISERROR( N'Calling RAISERROR when removed', 10, 1);
+	IF EXISTS (SELECT *
+			   FROM deleted
+			   WHERE [status] = 'BBB')
+		BEGIN
+			RAISERROR( N'Calling RAISERROR when removed', 10, 1);
+		END
 END
 GO
 
 DELETE FROM 
 	[Flight]
 WHERE
-	[status] = 'UNK'
+	[status] = 'AAA'
 GO
 
 ----------------------------------------------------------------------------
@@ -149,97 +159,182 @@ SELECT * FROM [FlightInfo];
 GO
 ----------------------------------------------------------------------------
 
-CREATE TRIGGER [FlightInfoInsertTrig] ON [FlightInfo]
+IF OBJECT_ID(N'—lassroom_teacher') IS NOT NULL
+DROP TABLE —lassroom_teacher;
+GO
+
+CREATE TABLE [—lassroom_teacher]
+	([TID] [INT] NOT NULL IDENTITY(1, 1) PRIMARY KEY,
+	 [last_name] [NVARCHAR](30) NOT NULL DEFAULT 'NoLastName',
+	 [group_name] [NVARCHAR](3) NOT NULL UNIQUE)
+GO
+
+INSERT INTO
+	[—lassroom_teacher]([last_name], [group_name])
+VALUES
+	('Ivanova', '1A'),
+	('Petrova', '3B'),
+	('Sidorova', '8A'),
+	('Terehina', '6B')
+GO
+
+IF OBJECT_ID(N'Group') IS NOT NULL
+DROP TABLE [Group];
+GO
+
+CREATE TABLE [Group]
+	([CID] [INT] NOT NULL IDENTITY(1, 1) PRIMARY KEY,
+	 [group_name] [NVARCHAR](3) NOT NULL 
+	 FOREIGN KEY ([group_name]) REFERENCES [—lassroom_teacher]([group_name]),
+	 [n_students] [INT] DEFAULT NULL)
+GO
+
+INSERT INTO
+	[Group]([group_name], [n_students])
+VALUES
+	('1A', 28),
+	('3B', 17),
+	('8A', 24),
+	('6B', 31)
+GO
+
+----------------------------------------------------------------------------
+
+CREATE VIEW [ClassRoomInfo]
+AS
+	SELECT
+		[c].[last_name], [g].[group_name], [g].[n_students]
+	FROM
+		[—lassroom_teacher] AS [c] JOIN [Group] AS [g]
+		ON [c].group_name = [g].group_name
+GO
+
+SELECT * FROM [ClassRoomInfo];
+GO
+
+----------------------------------------------------------------------------
+
+CREATE TRIGGER [ClassRoomInfoInsertTrig] ON [ClassRoomInfo]
 	INSTEAD OF INSERT
 AS
 BEGIN
 	INSERT INTO
-		[Flight]([departure_airport], [arrival_airport], [status])
+		[—lassroom_teacher]([last_name], [group_name])
 	SELECT
-		[i].[departure_airport],
-		[i].[arrival_airport],
-		[i].[status]
+		[i].[last_name], [i].[group_name]
 	FROM
-		inserted AS i
-		
-	PRINT 'In view [FlightInfo] was insert some row'
+		inserted  AS [i]
+
+	INSERT INTO
+		[Group]([group_name], [n_students])
+	SELECT
+		[i].[group_name], [i].[n_students]
+	FROM 
+		inserted AS [i]
 END
 GO
 
 INSERT INTO
-	[FlightInfo]([departure_airport], [arrival_airport], [status])
+	[ClassRoomInfo]([last_name], [group_name], [n_students])
 VALUES
-	('SVX', 'KEJ', 'ARR')
+	('Trenev', '22F', 2),
+	('AAAAAAA', 'BA1', 100);
 GO
 
-SELECT * FROM [FlightInfo];
+SELECT * FROM [ClassRoomInfo];
 GO
+
 ----------------------------------------------------------------------------
 
-CREATE TRIGGER [FlightInfoUpdateTrig] ON [FlightInfo]
+CREATE TRIGGER [ClassRoomInfoUpdateTrig] ON [ClassRoomInfo]
 	INSTEAD OF UPDATE
 AS
 BEGIN
 	UPDATE
-		[Flight]
+		[—lassroom_teacher]
 	SET
-		[status] = [i].[status]
+		[last_name] = [i].[last_name]
 	FROM
-		(SELECT *, row_number() OVER (ORDER BY [date]) AS [row_num] FROM inserted) AS i 
+		(SELECT *, row_number() OVER (ORDER BY [group_name]) AS [row_num] FROM inserted) AS i 
 		JOIN
-		(SELECT *, row_number() OVER (ORDER BY [date]) AS [row_num] FROM deleted) AS d
+		(SELECT *, row_number() OVER (ORDER BY [group_name]) AS [row_num] FROM deleted) AS d
 		ON 
 			[i].[row_num] = [d].[row_num]
 		WHERE 
-			[Flight].[departure_airport] = [d].[departure_airport]
+			[—lassroom_teacher].[group_name] = [d].[group_name]
+
+	UPDATE
+		[Group]
+	SET
+		[n_students] = [i].[n_students]
+	FROM
+		(SELECT *, row_number() OVER (ORDER BY [group_name]) AS [row_num] FROM inserted) AS i 
+		JOIN
+		(SELECT *, row_number() OVER (ORDER BY [group_name]) AS [row_num] FROM deleted) AS d
+		ON 
+			[i].[row_num] = [d].[row_num]
+	WHERE 
+		[Group].[group_name] = [d].[group_name]
 END
 GO
 
 UPDATE
-	[FlightInfo]
+	[ClassRoomInfo]
 SET
-	[status] = 'ABC'
+	[last_name] = 'NewLastName',
+	[n_students] = 0
 WHERE
-	[departure_airport] = 'SVX';
+	[group_name] = '22F';
 GO
 
-SELECT * FROM [FlightInfo];
+SELECT * FROM [ClassRoomInfo];
 GO
+
 ----------------------------------------------------------------------------
 
-CREATE TRIGGER [FlightInfoDeleteTrig] ON [FlightInfo]
+CREATE TRIGGER [ClassRoomInfoDeleteTrig] ON [ClassRoomInfo]
 	INSTEAD OF DELETE
 AS
 BEGIN
 	DELETE FROM
-		[Flight]
+		[Group]
 	WHERE
-		[departure_airport] = (SELECT [d].[departure_airport] FROM deleted AS d)
-		AND [arrival_airport] = (SELECT [d].[arrival_airport] FROM deleted AS d)
+		[group_name] = (SELECT [d].[group_name] FROM deleted AS [d])
+
+	DELETE FROM
+		[—lassroom_teacher]
+	WHERE
+		[group_name] = (SELECT [d].[group_name] FROM deleted AS [d])
 END
 GO
 
 DELETE FROM
-	[FlightInfo]
+	[ClassRoomInfo]
 WHERE
-	[departure_airport] = 'SVX'
-	AND [arrival_airport] = 'KEJ';
+	[group_name] = 'BA1';
 GO
 
-SELECT * FROM [FlightInfo];
+SELECT * FROM [ClassRoomInfo];
 GO
-
 
 ----------------------------------------------------------------------------
 
-----------------------------------------------------------------------------
-DROP TRIGGER IF EXISTS [FlightInfoDeleteTrig];
+DROP TRIGGER IF EXISTS [ClassRoomInfoDeleteTrig];
 GO
 
-DROP TRIGGER IF EXISTS [FlightInfoInsertTrig];
+DROP TRIGGER IF EXISTS [ClassRoomInfoUpdateTrig];
 GO
 
-DROP VIEW IF EXISTS [FlightInfo];
+DROP TRIGGER IF EXISTS [ClassRoomInfoInsertTrig];
+GO
+
+DROP VIEW IF EXISTS [ClassRoomInfo];
+GO
+
+DROP TABLE IF EXISTS [Group];
+GO
+
+DROP TABLE IF EXISTS [—lassroom_teacher];
 GO
 
 DROP TRIGGER IF EXISTS [FlightInsertTrig];
@@ -261,4 +356,4 @@ USE master;
 GO
 
 DROP DATABASE [Lab9DB];
-Go
+GO
