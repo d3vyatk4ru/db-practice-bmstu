@@ -1,7 +1,10 @@
-ER-model/report/*.toc
-ER-model/report/*.log
-ER-model/report/*.out
-ER-model/report/*.eps
-ER-model/report/*.synctex.gz
-ER-model/report/*.sty
-ER-model/report/*.tex
+report/report/*.toc
+report/report/*.log
+report/report/*.out
+report/report/*.eps
+report/report/*.synctex.gz
+report/report/*.sty
+report/report/*.tex
+report/report/*.aux
+report/report/Sample.log
+report/report/Sample.synctex.gz

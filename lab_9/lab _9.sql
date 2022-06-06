@@ -150,6 +150,7 @@ GO
 ----------------------------------------------------------------------------
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 IF OBJECT_ID(N'Ñlassroom_teacher') IS NOT NULL
 DROP TABLE Ñlassroom_teacher;
 GO
@@ -209,6 +210,9 @@ CREATE TRIGGER [ClassRoomInfoInsertTrig] ON [ClassRoomInfo]
 =======
 CREATE TRIGGER [FlightInfoInsertTrig] ON [FlightInfo]
 >>>>>>> parent of 90c8c6e (added remarks into task 2)
+=======
+CREATE TRIGGER [FlightInfoInsertTrig] ON [FlightInfo]
+>>>>>>> parent of 90c8c6e (added remarks into task 2)
 	INSTEAD OF INSERT
 AS
 BEGIN
@@ -219,6 +223,7 @@ BEGIN
 		[i].[arrival_airport],
 		[i].[status]
 	FROM
+<<<<<<< HEAD
 <<<<<<< HEAD
 		inserted  AS [i]
 
@@ -231,6 +236,11 @@ BEGIN
 	WHERE
 		[i].[last_name] = [c].last_name
 		AND [i].[group_name] = [c].[group_name]
+=======
+		inserted AS i
+		
+	PRINT 'In view [FlightInfo] was insert some row'
+>>>>>>> parent of 90c8c6e (added remarks into task 2)
 =======
 		inserted AS i
 		
@@ -258,6 +268,7 @@ BEGIN
 	SET
 		[status] = [i].[status]
 	FROM
+<<<<<<< HEAD
 <<<<<<< HEAD
 		(SELECT *, row_number() OVER (ORDER BY [n_students]) AS [row_num] FROM inserted) AS i 
 		JOIN
@@ -288,6 +299,15 @@ BEGIN
 		WHERE 
 			[Flight].[departure_airport] = [d].[departure_airport]
 >>>>>>> parent of 90c8c6e (added remarks into task 2)
+=======
+		(SELECT *, row_number() OVER (ORDER BY [date]) AS [row_num] FROM inserted) AS i 
+		JOIN
+		(SELECT *, row_number() OVER (ORDER BY [date]) AS [row_num] FROM deleted) AS d
+		ON 
+			[i].[row_num] = [d].[row_num]
+		WHERE 
+			[Flight].[departure_airport] = [d].[departure_airport]
+>>>>>>> parent of 90c8c6e (added remarks into task 2)
 END
 GO
 
@@ -302,9 +322,12 @@ GO
 SELECT * FROM [FlightInfo];
 GO
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 ------------------------------------------------------------------------------
 =======
+=======
+>>>>>>> parent of 90c8c6e (added remarks into task 2)
 ----------------------------------------------------------------------------
 >>>>>>> parent of 90c8c6e (added remarks into task 2)
 
@@ -316,6 +339,7 @@ BEGIN
 		[Flight]
 	WHERE
 <<<<<<< HEAD
+<<<<<<< HEAD
 		[TID] = (SELECT [c].[TID] FROM [Ñlassroom_teacher] AS [c], deleted AS [d]
 				 WHERE [d].[group_name] = [c].[group_name])
 
@@ -323,6 +347,10 @@ BEGIN
 		[Ñlassroom_teacher]
 	WHERE
 		[group_name] = (SELECT [d].[group_name] FROM deleted AS [d])
+=======
+		[departure_airport] = (SELECT [d].[departure_airport] FROM deleted AS d)
+		AND [arrival_airport] = (SELECT [d].[arrival_airport] FROM deleted AS d)
+>>>>>>> parent of 90c8c6e (added remarks into task 2)
 =======
 		[departure_airport] = (SELECT [d].[departure_airport] FROM deleted AS d)
 		AND [arrival_airport] = (SELECT [d].[arrival_airport] FROM deleted AS d)

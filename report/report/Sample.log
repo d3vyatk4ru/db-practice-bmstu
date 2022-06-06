@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.2) (preloaded format=pdflatex 2022.1.11)  19 APR 2022 20:37
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.2) (preloaded format=pdflatex 2022.1.11)  6 JUN 2022 22:54
 entering extended mode
 **./Sample.tex
 (Sample.tex
@@ -2060,8 +2060,8 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 )
 \Hy@SectionHShift=\skip52
 )
-Package hyperref Info: Option `unicode' set `true' on input line 47.
-Package hyperref Info: Option `colorlinks' set `false' on input line 47.
+Package hyperref Info: Option `unicode' set `true' on input line 29.
+Package hyperref Info: Option `colorlinks' set `false' on input line 29.
  (Sample.aux
 LaTeX Font Info:    Trying to load font information for T2A+cmr on input line 2
 2.
@@ -2072,33 +2072,30 @@ File: t2acmr.fd 2001/08/11 v1.0a Computer Modern Cyrillic font definitions
 
 LaTeX Warning: Label `rel_model' multiply defined.
 
-
-LaTeX Warning: Label `rel_model' multiply defined.
-
 )
 \openout1 = `Sample.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for T2A/cmr/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Info: Redefining \th on input line 47.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for T2A/cmr/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Info: Redefining \th on input line 29.
 
 (C:\Users\Danya\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mk
 ii
@@ -2122,7 +2119,7 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 85.
 )
 \AtBeginShipoutBox=\box51
-Package hyperref Info: Link coloring OFF on input line 47.
+Package hyperref Info: Link coloring OFF on input line 29.
 
 (C:\Users\Danya\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\nameref.sty
 Package: nameref 2021-04-02 v2.47 Cross-referencing by name of section
@@ -2136,146 +2133,130 @@ Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
 \c@section@level=\count305
 )
-LaTeX Info: Redefining \ref on input line 47.
-LaTeX Info: Redefining \pageref on input line 47.
-LaTeX Info: Redefining \nameref on input line 47.
+LaTeX Info: Redefining \ref on input line 29.
+LaTeX Info: Redefining \pageref on input line 29.
+LaTeX Info: Redefining \nameref on input line 29.
  (Sample.out) (Sample.out)
 \@outlinefile=\write3
 \openout3 = `Sample.out'.
 
-<emblema.pdf, id=16, 476.01839pt x 534.79799pt>
-File: emblema.pdf Graphic file (type pdf)
-<use emblema.pdf>
-Package pdftex.def Info: emblema.pdf  used on input line 53.
-(pdftex.def)             Requested size: 90.44443pt x 101.61267pt.
-<<ot1.cmap>><<oml.cmap>><<oms.cmap>><<omx.cmap>>
-Overfull \hbox (4.23367pt too wide) detected at line 53
- \T2A/cmr/m/n/12 ФН12-21М 
- []
 
-[1
-
-{C:/Users/Danya/AppData/Local/MiKTeX/pdftex/config/pdftex.map} <./emblema.pdf>]
-
-Overfull \hbox (29.40009pt too wide) in paragraph at lines 82--83
-[]\T2A/cmr/m/n/12 Flights -- сущ-ность, опре-де-ля-ю-щая рейс. Иден-ти-фи-ка-то
--ром яв-ля-ет-ся но-мер (flight_id)
+Overfull \hbox (29.40009pt too wide) in paragraph at lines 59--60
+[]\T2A/cmr/m/n/12 Flights  сущ-ность, опре-де-ля-ю-щая рейс. Иден-ти-фи-ка-то-
+ром яв-ля-ет-ся но-мер (flight_id)
  []
 
 
-Overfull \hbox (1.27693pt too wide) in paragraph at lines 82--83
+Overfull \hbox (1.27693pt too wide) in paragraph at lines 59--60
 \T2A/cmr/m/n/12 и да-та (date) по-ле-та. Ат-ри-бу-ты сущ-но-сти: аэро-порт при-
 ле-та (departure_airport),
  []
 
-<db-bmstu.png, id=38, 507.0945pt x 239.09325pt>
+<db-bmstu.png, id=16, 507.0945pt x 239.09325pt>
 File: db-bmstu.png Graphic file (type png)
 <use db-bmstu.png>
-Package pdftex.def Info: db-bmstu.png  used on input line 88.
+Package pdftex.def Info: db-bmstu.png  used on input line 65.
 (pdftex.def)             Requested size: 431.03235pt x 203.23021pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[2] [3 <./db-bmstu.png>]
-<rel-mod.png, id=62, 484.209pt x 297.5115pt>
+<<ot1.cmap>> [1{C:/Users/Danya/AppData/Local/MiKTeX/pdftex/config/pdftex.map}
+
+]
+[2 <./db-bmstu.png>]
+<rel-mod.png, id=44, 484.209pt x 297.5115pt>
 File: rel-mod.png Graphic file (type png)
 <use rel-mod.png>
-Package pdftex.def Info: rel-mod.png  used on input line 101.
+Package pdftex.def Info: rel-mod.png  used on input line 81.
 (pdftex.def)             Requested size: 484.20781pt x 297.51077pt.
-<customer_type.png, id=63, 248.72925pt x 192.72pt>
+<customer_type.png, id=45, 234.27525pt x 189.1065pt>
 File: customer_type.png Graphic file (type png)
 <use customer_type.png>
-Package pdftex.def Info: customer_type.png  used on input line 111.
-(pdftex.def)             Requested size: 227.62204pt x 176.37234pt.
+Package pdftex.def Info: customer_type.png  used on input line 90.
+(pdftex.def)             Requested size: 226.19931pt x 182.59338pt.
 
-Overfull \hbox (4.54994pt too wide) in paragraph at lines 111--112
+Overfull \hbox (3.12721pt too wide) in paragraph at lines 90--91
  [] 
  []
 
-<aircrafts_type.png, id=64, 240.9pt x 133.09724pt>
+<<oml.cmap>><<oms.cmap>><<omx.cmap>>
+<aircrafts_type.png, id=49, 227.6505pt x 126.4725pt>
 File: aircrafts_type.png Graphic file (type png)
 <use aircrafts_type.png>
-Package pdftex.def Info: aircrafts_type.png  used on input line 114.
-(pdftex.def)             Requested size: 227.62204pt x 125.76537pt.
+Package pdftex.def Info: aircrafts_type.png  used on input line 93.
+(pdftex.def)             Requested size: 226.19931pt x 125.67131pt.
 
-Overfull \hbox (4.54994pt too wide) in paragraph at lines 114--115
+Overfull \hbox (3.12721pt too wide) in paragraph at lines 93--94
  [] 
  []
 
-<flight_type.png, id=65, 233.673pt x 245.718pt>
+<flight_type.png, id=50, 232.4685pt x 249.93375pt>
 File: flight_type.png Graphic file (type png)
 <use flight_type.png>
-Package pdftex.def Info: flight_type.png  used on input line 119.
-(pdftex.def)             Requested size: 227.62204pt x 239.35474pt.
+Package pdftex.def Info: flight_type.png  used on input line 98.
+(pdftex.def)             Requested size: 227.62204pt x 244.73509pt.
 
-Overfull \hbox (4.54994pt too wide) in paragraph at lines 119--120
+Overfull \hbox (4.54994pt too wide) in paragraph at lines 98--99
  [] 
  []
 
-<ticket_type.png, id=66, 233.673pt x 252.34274pt>
+<ticket_type.png, id=51, 244.5135pt x 260.77425pt>
 File: ticket_type.png Graphic file (type png)
 <use ticket_type.png>
-Package pdftex.def Info: ticket_type.png  used on input line 122.
-(pdftex.def)             Requested size: 227.62204pt x 245.80792pt.
+Package pdftex.def Info: ticket_type.png  used on input line 101.
+(pdftex.def)             Requested size: 227.62204pt x 242.7722pt.
 
-Overfull \hbox (4.54994pt too wide) in paragraph at lines 122--123
+Overfull \hbox (4.54994pt too wide) in paragraph at lines 101--102
  [] 
  []
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<min_card_1.png, id=67, 497.4585pt x 160.80075pt>
+<min_card_1.png, id=52, 497.4585pt x 160.80075pt>
 File: min_card_1.png Graphic file (type png)
 <use min_card_1.png>
-Package pdftex.def Info: min_card_1.png  used on input line 129.
+Package pdftex.def Info: min_card_1.png  used on input line 108.
 (pdftex.def)             Requested size: 482.53415pt x 155.97652pt.
-[4 <./rel-mod.png> <./customer_type.png> <./aircrafts_type.png>]
-<min_card_2.png, id=73, 239.09325pt x 143.93774pt>
+[3 <./rel-mod.png> <./customer_type.png> <./aircrafts_type.png>]
+<min_card_2.png, id=60, 239.09325pt x 143.93774pt>
 File: min_card_2.png Graphic file (type png)
 <use min_card_2.png>
-Package pdftex.def Info: min_card_2.png  used on input line 133.
+Package pdftex.def Info: min_card_2.png  used on input line 111.
 (pdftex.def)             Requested size: 231.92015pt x 139.61943pt.
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 138.
- [5 <./flight_type.png> <./ticket_type.png> <./min_card_1.png> <./min_card_2.pn
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 115.
+ [4 <./flight_type.png> <./ticket_type.png> <./min_card_1.png> <./min_card_2.pn
 g>]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 138.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 115.
  (Sample.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 138.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 138.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 115.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 115.
 Package rerunfilecheck Info: File `Sample.out' has not changed.
 (rerunfilecheck)             Checksum: FEBDEE8675B4D8824D0A5D6DCCA89C3D;593.
 
 
 LaTeX Warning: There were multiply-defined labels.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 138.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 115.
  ) 
 Here is how much of TeX's memory you used:
- 11230 strings out of 479334
- 160170 string characters out of 2857084
+ 11199 strings out of 479334
+ 159717 string characters out of 2857084
  463061 words of memory out of 3000000
- 28440 multiletter control sequences out of 15000+200000
- 419538 words of font info for 60 fonts, out of 3000000 for 9000
+ 28423 multiletter control sequences out of 15000+200000
+ 414476 words of font info for 54 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 43i,8n,49p,631b,360s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 43i,8n,49p,725b,360s stack positions out of 5000i,500n,10000p,200000b,50000s
  <C:\Users\Danya\AppData\Local\MiKTeX\fonts/pk/ljfour/lh/lh-t2a/dpi600\larm10
-95.pk> <C:\Users\Danya\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\
-tcrm1200.pk> <C:\Users\Danya\AppData\Local\MiKTeX\fonts/pk/ljfour/lh/lh-t2a/dpi
-600\labx1440.pk> <C:\Users\Danya\AppData\Local\MiKTeX\fonts/pk/ljfour/lh/lh-t2a
-/dpi600\lasl1000.pk> <C:\Users\Danya\AppData\Local\MiKTeX\fonts/pk/ljfour/lh/lh
--t2a/dpi600\larm0800.pk> <C:\Users\Danya\AppData\Local\MiKTeX\fonts/pk/ljfour/l
-h/lh-t2a/dpi600\lati1200.pk> <C:\Users\Danya\AppData\Local\MiKTeX\fonts/pk/ljfo
-ur/lh/lh-t2a/dpi600\larm1728.pk> <C:\Users\Danya\AppData\Local\MiKTeX\fonts/pk/
-ljfour/lh/lh-t2a/dpi600\labi1728.pk> <C:\Users\Danya\AppData\Local\MiKTeX\fonts
-/pk/ljfour/lh/lh-t2a/dpi600\labx1728.pk> <C:\Users\Danya\AppData\Local\MiKTeX\f
-onts/pk/ljfour/lh/lh-t2a/dpi600\lati1440.pk> <C:\Users\Danya\AppData\Local\MiKT
-eX\fonts/pk/ljfour/lh/lh-t2a/dpi600\larm1440.pk> <C:\Users\Danya\AppData\Local\
-MiKTeX\fonts/pk/ljfour/lh/lh-t2a/dpi600\labx1095.pk> <C:\Users\Danya\AppData\Lo
-cal\MiKTeX\fonts/pk/ljfour/lh/lh-t2a/dpi600\larm1200.pk>
-Output written on Sample.pdf (5 pages, 365778 bytes).
+95.pk> <C:\Users\Danya\AppData\Local\MiKTeX\fonts/pk/ljfour/lh/lh-t2a/dpi600\la
+bx1095.pk> <C:\Users\Danya\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi
+600\tcrm1200.pk> <C:\Users\Danya\AppData\Local\MiKTeX\fonts/pk/ljfour/lh/lh-t2a
+/dpi600\labx1440.pk> <C:\Users\Danya\AppData\Local\MiKTeX\fonts/pk/ljfour/lh/lh
+-t2a/dpi600\larm1200.pk> <C:\Users\Danya\AppData\Local\MiKTeX\fonts/pk/ljfour/l
+h/lh-t2a/dpi600\lasl1000.pk>
+Output written on Sample.pdf (4 pages, 148295 bytes).
 PDF statistics:
- 448 PDF objects out of 1000 (max. 8388607)
- 20 named destinations out of 1000 (max. 500000)
- 90 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 272 PDF objects out of 1000 (max. 8388607)
+ 19 named destinations out of 1000 (max. 500000)
+ 85 words of extra memory for PDF output out of 10000 (max. 10000000)
 
