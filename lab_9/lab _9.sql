@@ -184,18 +184,18 @@ GO
 
 CREATE TABLE [Group]
 	([CID] [INT] NOT NULL IDENTITY(1, 1) PRIMARY KEY,
-	 [group_name] [NVARCHAR](3) NOT NULL 
-	 FOREIGN KEY ([group_name]) REFERENCES [Ñlassroom_teacher]([group_name]),
+	 [TID] [INT] NOT NULL 
+	 FOREIGN KEY ([TID]) REFERENCES [Ñlassroom_teacher]([TID]),
 	 [n_students] [INT] DEFAULT NULL)
 GO
 
 INSERT INTO
-	[Group]([group_name], [n_students])
+	[Group]([n_students], [TID])
 VALUES
-	('1A', 28),
-	('3B', 17),
-	('8A', 24),
-	('6B', 31)
+	(28, 1),
+	(17, 2),
+	(24, 3),
+	(31, 4)
 GO
 
 ----------------------------------------------------------------------------
@@ -203,10 +203,10 @@ GO
 CREATE VIEW [ClassRoomInfo]
 AS
 	SELECT
-		[c].[last_name], [g].[group_name], [g].[n_students]
+		[c].[last_name], [c].[group_name], [g].[n_students]
 	FROM
 		[Ñlassroom_teacher] AS [c] JOIN [Group] AS [g]
-		ON [c].group_name = [g].group_name
+		ON [c].[TID] = [g].[TID]
 GO
 
 SELECT * FROM [ClassRoomInfo];
@@ -226,11 +226,14 @@ BEGIN
 		inserted  AS [i]
 
 	INSERT INTO
-		[Group]([group_name], [n_students])
+		[Group]([TID], [n_students])
 	SELECT
-		[i].[group_name], [i].[n_students]
+		[c].[TID], [i].[n_students]
 	FROM 
-		inserted AS [i]
+		inserted AS [i], [Ñlassroom_teacher] as [c]
+	WHERE
+		[i].[last_name] = [c].last_name
+		AND [i].[group_name] = [c].[group_name]
 END
 GO
 
@@ -255,26 +258,26 @@ BEGIN
 	SET
 		[last_name] = [i].[last_name]
 	FROM
-		(SELECT *, row_number() OVER (ORDER BY [group_name]) AS [row_num] FROM inserted) AS i 
+		(SELECT *, row_number() OVER (ORDER BY [n_students]) AS [row_num] FROM inserted) AS i 
 		JOIN
-		(SELECT *, row_number() OVER (ORDER BY [group_name]) AS [row_num] FROM deleted) AS d
+		(SELECT *, row_number() OVER (ORDER BY [n_students]) AS [row_num] FROM deleted) AS d
 		ON 
 			[i].[row_num] = [d].[row_num]
 		WHERE 
-			[Ñlassroom_teacher].[group_name] = [d].[group_name]
+			[Ñlassroom_teacher].[last_name] = [d].[last_name]
 
 	UPDATE
 		[Group]
 	SET
 		[n_students] = [i].[n_students]
 	FROM
-		(SELECT *, row_number() OVER (ORDER BY [group_name]) AS [row_num] FROM inserted) AS i 
+		(SELECT *, row_number() OVER (ORDER BY [n_students]) AS [row_num] FROM inserted) AS i 
 		JOIN
-		(SELECT *, row_number() OVER (ORDER BY [group_name]) AS [row_num] FROM deleted) AS d
+		(SELECT *, row_number() OVER (ORDER BY [n_students]) AS [row_num] FROM deleted) AS d
 		ON 
 			[i].[row_num] = [d].[row_num]
 	WHERE 
-		[Group].[group_name] = [d].[group_name]
+		[Group].[n_students] = [d].[n_students]
 END
 GO
 
@@ -290,7 +293,7 @@ GO
 SELECT * FROM [ClassRoomInfo];
 GO
 
-----------------------------------------------------------------------------
+------------------------------------------------------------------------------
 
 CREATE TRIGGER [ClassRoomInfoDeleteTrig] ON [ClassRoomInfo]
 	INSTEAD OF DELETE
@@ -299,7 +302,8 @@ BEGIN
 	DELETE FROM
 		[Group]
 	WHERE
-		[group_name] = (SELECT [d].[group_name] FROM deleted AS [d])
+		[TID] = (SELECT [c].[TID] FROM [Ñlassroom_teacher] AS [c], deleted AS [d]
+				 WHERE [d].[group_name] = [c].[group_name])
 
 	DELETE FROM
 		[Ñlassroom_teacher]
